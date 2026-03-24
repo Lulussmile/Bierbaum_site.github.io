@@ -1,0 +1,205 @@
+// Verfeinerte Level 3 Version – mehr Charme, bessere Icons, verspielter Look
+import { Cake, Clock3, MapPin, Phone, Star, ShoppingBag } from "lucide-react";
+
+export default function KonditoreiBierbaumWebsite() {
+  const pink = "#e91e63"; // näher am Screenshot
+  const rose = "#fff0f6";
+  const cream = "#fffaf5";
+
+  const products = [
+    { title: "Torten & Kuchen", text: "Feinste handgemachte Torten und Kuchen für jeden Anlass." },
+    { title: "Dresdner Christstollen®", text: "Original Dresdner Spezialität aus traditioneller Herstellung." },
+    { title: "Backwaren", text: "Frische Brötchen, Brot und feines Gebäck täglich hergestellt." },
+    { title: "Café & Frühstück", text: "Gemütliches Café mit Frühstück und hausgemachten Spezialitäten." },
+  ];
+
+  const reviews = [
+    { name: "Stammkundin", text: "Wunderbare Torten und genau dieser traditionelle Charme." },
+    { name: "Gast", text: "Sehr gemütlich, man fühlt sich sofort wohl." },
+    { name: "Kunde", text: "Bester Stollen in Dresden – jedes Jahr ein Muss." },
+  ];
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b border-pink-100 bg-white/90 backdrop-blur">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow" style={{ background: pink }}>
+              <ShoppingBag />
+            </div>
+            <div>
+              <p className="text-xs text-slate-500">Seit 1933</p>
+              <h1 className="font-bold" style={{ color: pink }}>Konditorei Bierbaum</h1>
+            </div>
+          </div>
+          <a href="#kontakt" className="px-4 py-2 rounded-xl text-white shadow" style={{ background: pink }}>
+            Kontakt
+          </a>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section style={{ background: `linear-gradient(${rose}, ${cream})` }} className="py-20 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-40 h-40 bg-pink-200 rounded-full blur-3xl opacity-30" />
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <p className="text-pink-700 text-sm font-semibold">Lassen Sie sich verwöhnen</p>
+            <h2 className="text-5xl font-bold mt-3 leading-tight">
+              Traditionelle Konditorei mit Herz
+            </h2>
+            <p className="mt-4 text-slate-600">
+              Handgemachte Torten, feine Backwaren und echtes Dresdner Konditorhandwerk.
+            </p>
+
+            <div className="mt-6 flex gap-4">
+              <a href="#kontakt" className="px-6 py-3 rounded-xl text-white shadow" style={{ background: pink }}>
+                Jetzt besuchen
+              </a>
+              <a href="#sortiment" className="px-6 py-3 border rounded-xl hover:bg-pink-50 transition">
+                Sortiment ansehen
+              </a>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="h-64 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-700 border border-pink-100">
+              Hero Bild
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
+            <Star className="fill-current" style={{ color: pink }} />
+            <h3 className="mt-3 font-semibold">Tradition</h3>
+          </div>
+          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
+            <Cake style={{ color: pink }} />
+            <h3 className="mt-3 font-semibold">Handwerk</h3>
+          </div>
+          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
+            <Phone style={{ color: pink }} />
+            <h3 className="mt-3 font-semibold">Service</h3>
+          </div>
+        </div>
+      </section>
+
+      {/* SORTIMENT */}
+      <section id="sortiment" className="py-16" style={{ background: cream }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl font-bold">Unser Sortiment</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+            {products.map((p) => (
+              <div key={p.title} className="p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition border border-pink-100">
+                <h3 style={{ color: pink }}>{p.title}</h3>
+                <p className="text-sm mt-2 text-slate-600">{p.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl font-bold">Bewertungen</h2>
+          <div className="grid lg:grid-cols-3 gap-6 mt-8">
+            {reviews.map((r) => (
+              <div key={r.name} className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
+                <div className="flex gap-1">
+                  {[1,2,3,4,5].map(i => (
+                    <Star key={i} className="h-4 w-4 fill-current" style={{ color: pink }} />
+                  ))}
+                </div>
+                <p className="mt-3 text-sm text-slate-600">{r.text}</p>
+                <p className="mt-2 text-xs text-slate-400">{r.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MAP */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <iframe
+            src="https://maps.google.com/maps?q=Sosaerstr%207%20Dresden&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            className="w-full h-[400px] rounded-2xl shadow-sm"
+          />
+        </div>
+      </section>
+
+      {/* KONTAKT */}
+      <section id="kontakt" className="py-16">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
+          <div className="p-6 rounded-2xl bg-pink-50 border border-pink-100">
+            <h2 className="text-2xl font-bold">Kontakt</h2>
+            <p className="mt-3">Sosaerstr. 7, Dresden</p>
+            <p>0351 2002101</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-white border shadow-sm">
+            <h2 className="text-2xl font-bold">Öffnungszeiten</h2>
+            <p className="mt-3">Di–Fr: 07:30–17:30</p>
+            <p>Sa: 07:00–12:00</p>
+          </div>
+        </div>
+      </section>
+
+      {/* IMPRESSUM */}
+      <section id="impressum" className="py-16 bg-pink-50 border-t border-pink-100">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-2xl font-bold" style={{ color: pink }}>Impressum</h2>
+
+          <div className="mt-6 text-sm text-slate-700 space-y-4 leading-relaxed">
+            <p>
+              Die vollständigen Angaben zum Impressum finden Sie auf der offiziellen Website der Konditorei Bierbaum:
+            </p>
+
+            <a
+              href="https://www.konditorei-bierbaum.de/Kontakt/Impressum/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 px-5 py-3 rounded-xl text-white font-semibold shadow"
+              style={{ background: pink }}
+            >
+              Impressum öffnen
+            </a>
+
+            <p className="text-xs text-slate-500 mt-4">
+              Hinweis: Für eine rechtssichere Website sollten die Impressumsangaben vollständig auf dieser Seite integriert werden.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* DATENSCHUTZ */}
+      <section id="datenschutz" className="py-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-2xl font-bold" style={{ color: pink }}>Datenschutz</h2>
+          <p className="mt-6 text-sm text-slate-600">
+            Eine Datenschutzerklärung wird benötigt, insbesondere wenn Dienste wie Google Maps oder Kontaktmöglichkeiten eingebunden sind.
+            Gerne kann diese hier im selben Stil ergänzt werden.
+          </p>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="mt-10 bg-pink-50 border-t border-pink-100">
+        <div className="max-w-7xl mx-auto px-6 py-10 text-center">
+          <p className="font-semibold" style={{ color: pink }}>Konditorei Bierbaum</p>
+          <p className="text-sm text-slate-500 mt-2">Tradition · Handwerk · Genuss in Dresden</p>
+          <div className="mt-4 flex justify-center gap-6 text-sm">
+            <a href="#impressum" className="hover:text-pink-700">Impressum</a>
+            <a href="#datenschutz" className="hover:text-pink-700">Datenschutz</a>
+            <a href="#kontakt" className="hover:text-pink-700">Kontakt</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
