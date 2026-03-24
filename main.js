@@ -1,4 +1,3 @@
-// Verfeinerte Level 3 Version – mehr Charme, bessere Icons, verspielter Look
 import { Cake, Clock3, MapPin, Phone, Star, ShoppingBag } from "lucide-react";
 
 export default function KonditoreiBierbaumWebsite() {
