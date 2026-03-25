@@ -1,204 +1,957 @@
-import { Cake, Clock3, MapPin, Phone, Star, ShoppingBag } from "lucide-react";
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konditorei Bierbaum</title>
+  <style>
+    :root{
+      --pink:#e91e63;
+      --pink-dark:#c2185b;
+      --rose:#fff0f6;
+      --cream:#fffaf5;
+      --text:#2b2b2b;
+      --muted:#6b7280;
+      --line:#f3c6d8;
+      --white:#ffffff;
+      --shadow:0 10px 30px rgba(233,30,99,.10);
+      --radius:22px;
+    }
 
-export default function KonditoreiBierbaumWebsite() {
-  const pink = "#e91e63"; 
-  const rose = "#fff0f6";
-  const cream = "#fffaf5";
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,var(--rose),var(--cream) 35%, #fff 70%);
+    }
 
-  const products = [
-    { title: "Torten & Kuchen", text: "Feinste handgemachte Torten und Kuchen für jeden Anlass." },
-    { title: "Dresdner Christstollen®", text: "Original Dresdner Spezialität aus traditioneller Herstellung." },
-    { title: "Backwaren", text: "Frische Brötchen, Brot und feines Gebäck täglich hergestellt." },
-    { title: "Café & Frühstück", text: "Gemütliches Café mit Frühstück und hausgemachten Spezialitäten." },
-  ];
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
 
-  const reviews = [
-    { name: "Stammkundin", text: "Wunderbare Torten und genau dieser traditionelle Charme." },
-    { name: "Gast", text: "Sehr gemütlich, man fühlt sich sofort wohl." },
-    { name: "Kunde", text: "Bester Stollen in Dresden – jedes Jahr ein Muss." },
-  ];
+    .container{
+      width:min(1120px, calc(100% - 32px));
+      margin:0 auto;
+    }
 
-  return (
-    <div className="min-h-screen bg-white text-slate-900">
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px 22px;
+      border-radius:14px;
+      font-weight:700;
+      transition:.2s ease;
+      cursor:pointer;
+      border:1px solid transparent;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--pink),#ff4f93);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+    .btn-secondary{
+      background:#fff;
+      border-color:#e9d5df;
+      color:var(--text);
+    }
 
-      {/* HEADER */}
-      <header className="sticky top-0 z-50 border-b border-pink-100 bg-white/90 backdrop-blur">
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow" style={{ background: pink }}>
-              <ShoppingBag />
-            </div>
+    .pill{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #ffd4e5;
+      color:var(--pink-dark);
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      box-shadow:var(--shadow);
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid #f7d9e5;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .section{padding:72px 0}
+    .section-title{
+      font-size:clamp(28px,4vw,42px);
+      line-height:1.1;
+      margin:0 0 14px;
+    }
+    .section-text{
+      color:var(--muted);
+      line-height:1.7;
+      margin:0;
+    }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background:rgba(255,255,255,.88);
+      border-bottom:1px solid #f8d5e3;
+    }
+    .header-inner{
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .brand-badge{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:20px;
+      background:linear-gradient(135deg,var(--pink),#ff5c9c);
+      box-shadow:var(--shadow);
+      flex:0 0 auto;
+    }
+    .brand-text small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:2px;
+    }
+    .brand-text strong{
+      color:var(--pink);
+      font-size:18px;
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:#444;
+      font-size:14px;
+    }
+    .nav a:hover{color:var(--pink-dark)}
+
+    .menu-toggle{
+      display:none;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid #f6d2e1;
+      background:#fff;
+      cursor:pointer;
+      font-size:22px;
+    }
+
+    .mobile-menu{
+      display:none;
+      padding:0 0 16px;
+    }
+    .mobile-menu.open{display:block}
+    .mobile-panel{
+      background:#fff;
+      border:1px solid #f7d9e5;
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:12px;
+    }
+    .mobile-panel a{
+      display:block;
+      padding:14px 12px;
+      border-radius:12px;
+      font-weight:700;
+    }
+    .mobile-panel a:hover{background:var(--rose); color:var(--pink-dark)}
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding:84px 0 54px;
+    }
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter:blur(50px);
+      opacity:.35;
+      z-index:0;
+    }
+    .hero:before{
+      width:220px;height:220px;
+      left:-60px;top:20px;
+      background:#ff83b3;
+    }
+    .hero:after{
+      width:260px;height:260px;
+      right:-80px;top:40px;
+      background:#ffd0e2;
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:34px;
+      align-items:center;
+    }
+    .hero h1{
+      font-size:clamp(36px,6vw,64px);
+      line-height:1.02;
+      margin:16px 0;
+    }
+    .hero p{
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.7;
+      margin:0;
+      max-width:620px;
+    }
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:28px;
+    }
+    .hero-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:28px;
+      max-width:700px;
+    }
+    .stat{
+      padding:18px;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid #f7d9e5;
+      box-shadow:var(--shadow);
+    }
+    .stat strong{
+      display:block;
+      color:var(--pink);
+      font-size:24px;
+      margin-bottom:6px;
+    }
+    .stat span{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .hero-visual{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .hero-photo{
+      min-height:360px;
+      border-radius:28px;
+      border:1px dashed #f4bdd4;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.15)),
+        linear-gradient(135deg, #ffe1ed, #fff6fa);
+      display:grid;
+      place-items:center;
+      color:var(--pink-dark);
+      text-align:center;
+      padding:24px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+    }
+    .hero-side{
+      display:grid;
+      gap:16px;
+    }
+    .mini-photo{
+      min-height:150px;
+      border-radius:24px;
+      border:1px dashed #f4bdd4;
+      background:linear-gradient(135deg, #fff, #fff4f8);
+      display:grid;
+      place-items:center;
+      color:#8b5b6e;
+      text-align:center;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    .pink-box{
+      border-radius:24px;
+      padding:26px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--pink),var(--pink-dark));
+      box-shadow:var(--shadow);
+    }
+    .pink-box small{
+      display:block;
+      opacity:.85;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:10px;
+    }
+    .pink-box h3{
+      margin:0 0 10px;
+      font-size:28px;
+    }
+    .pink-box p{
+      margin:0;
+      color:#ffe6ef;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .features-grid,
+    .products-grid,
+    .reviews-grid,
+    .bottom-grid,
+    .footer-grid{
+      display:grid;
+      gap:20px;
+    }
+    .features-grid{grid-template-columns:repeat(3,1fr)}
+    .products-grid{grid-template-columns:repeat(4,1fr)}
+    .reviews-grid{grid-template-columns:repeat(3,1fr)}
+    .bottom-grid{grid-template-columns:1.05fr .95fr}
+    .footer-grid{grid-template-columns:1.1fr .9fr}
+
+    .feature-card,
+    .product-card,
+    .review-card,
+    .info-card,
+    .legal-card{
+      padding:24px;
+    }
+
+    .icon-bubble{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:var(--rose);
+      color:var(--pink);
+      font-size:26px;
+      margin-bottom:14px;
+    }
+
+    .feature-card h3,
+    .product-card h3,
+    .review-card h3,
+    .info-card h3,
+    .legal-card h3{
+      margin:0 0 10px;
+      font-size:20px;
+    }
+    .feature-card p,
+    .product-card p,
+    .review-card p,
+    .info-card p,
+    .legal-card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .product-card{
+      position:relative;
+      overflow:hidden;
+    }
+    .product-card:before{
+      content:"";
+      display:block;
+      width:72px;
+      height:6px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--pink),#ff73aa);
+      margin-bottom:16px;
+    }
+
+    .stars{
+      display:flex;
+      gap:4px;
+      color:var(--pink);
+      margin-bottom:12px;
+      font-size:16px;
+    }
+    .review-name{
+      margin-top:14px;
+      font-size:13px;
+      color:#8c8c8c;
+      font-weight:700;
+    }
+
+    .map-wrap iframe{
+      width:100%;
+      height:420px;
+      border:0;
+      border-radius:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .contact-panel{
+      display:grid;
+      gap:18px;
+    }
+    .contact-row{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:16px 0;
+      border-bottom:1px solid #f6dce6;
+    }
+    .contact-row:last-child{border-bottom:0}
+    .contact-icon{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background:var(--rose);
+      color:var(--pink);
+      font-size:20px;
+      flex:0 0 auto;
+    }
+    .contact-row strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:15px;
+    }
+    .contact-row span,
+    .contact-row a{
+      color:var(--muted);
+      line-height:1.6;
+      font-size:15px;
+    }
+
+    .legal-grid{
+      display:grid;
+      gap:20px;
+      grid-template-columns:1fr 1fr;
+    }
+
+    .site-footer{
+      margin-top:26px;
+      background:linear-gradient(180deg, #fff7fb, #fff0f6);
+      border-top:1px solid #f7d8e4;
+      position:relative;
+      overflow:hidden;
+    }
+    .site-footer:before{
+      content:"";
+      position:absolute;
+      width:240px;height:240px;
+      border-radius:50%;
+      background:#ffd7e7;
+      right:-90px;bottom:-120px;
+      filter:blur(10px);
+      opacity:.45;
+    }
+    .footer-top{
+      padding:42px 0 26px;
+      position:relative;
+      z-index:1;
+    }
+    .footer-brand h3{
+      margin:0 0 8px;
+      color:var(--pink);
+      font-size:28px;
+    }
+    .footer-brand p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:520px;
+    }
+    .footer-links{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(120px,1fr));
+      gap:14px 24px;
+      align-content:start;
+    }
+    .footer-links a{
+      padding:10px 0;
+      color:#4b5563;
+      font-weight:700;
+    }
+    .footer-links a:hover{color:var(--pink-dark)}
+    .footer-bottom{
+      border-top:1px solid #f7d8e4;
+      padding:18px 0 28px;
+      position:relative;
+      z-index:1;
+      color:#7b7280;
+      font-size:14px;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-left.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-right.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+
+    .hero-photo,
+    .mini-photo,
+    .pink-box,
+    .stat {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .hero-photo.float {
+      animation: floatMain 5.5s ease-in-out infinite;
+    }
+
+    .mini-photo.float {
+      animation: floatSoft 6.5s ease-in-out infinite;
+    }
+
+    .pink-box.float {
+      animation: floatSoft 7s ease-in-out infinite;
+    }
+
+    @keyframes floatMain {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes floatSoft {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .card,
+    .stat,
+    .btn,
+    .contact-icon {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+
+    .card:hover,
+    .stat:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(233,30,99,.14);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .site-footer::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(233,30,99,.35), transparent);
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .bottom-grid,
+      .footer-grid,
+      .legal-grid,
+      .features-grid,
+      .products-grid,
+      .reviews-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-visual{grid-template-columns:1fr}
+      .hero-stats{grid-template-columns:1fr 1fr 1fr}
+    }
+
+    @media (max-width: 760px){
+      .nav,.header-cta{display:none}
+      .menu-toggle{display:block}
+      .hero{padding:56px 0 28px}
+      .hero h1{font-size:38px}
+      .hero p{font-size:16px}
+      .hero-stats{grid-template-columns:1fr}
+      .section{padding:54px 0}
+      .container{width:min(1120px, calc(100% - 24px))}
+      .header-inner{min-height:70px}
+      .map-wrap iframe{height:320px}
+      .footer-links{grid-template-columns:1fr 1fr}
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal,
+      .reveal-left,
+      .reveal-right,
+      .hero-photo.float,
+      .mini-photo.float,
+      .pink-box.float {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-badge">🛍️</div>
+        <div class="brand-text">
+          <small>Seit 1933 in Dresden</small>
+          <strong>Konditorei Bierbaum</strong>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#sortiment">Sortiment</a>
+        <a href="#bewertungen">Bewertungen</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#impressum">Impressum</a>
+      </nav>
+
+      <div class="header-cta">
+        <a class="btn btn-primary" href="#kontakt">Kontakt</a>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Menü öffnen">☰</button>
+    </div>
+
+    <div class="container mobile-menu" id="mobileMenu">
+      <div class="mobile-panel">
+        <a href="#sortiment">Sortiment</a>
+        <a href="#bewertungen">Bewertungen</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#impressum">Impressum</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="reveal-left">
+        <span class="pill">Lassen Sie sich verwöhnen</span>
+        <h1>Traditionelle Konditorei mit Herz und Dresdner Charme</h1>
+        <p>
+          Handgemachte Torten, feine Backwaren, gemütliches Café und echtes
+          Dresdner Konditorhandwerk – modern präsentiert, aber mit dem
+          liebevollen Gefühl der bisherigen Website.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#kontakt">Jetzt besuchen</a>
+          <a class="btn btn-secondary" href="#sortiment">Sortiment ansehen</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat reveal delay-1">
+            <strong>1933</strong>
+            <span>Tradition & Handwerk</span>
+          </div>
+          <div class="stat reveal delay-2">
+            <strong>Café</strong>
+            <span>Gemütlich & herzlich</span>
+          </div>
+          <div class="stat reveal delay-3">
+            <strong>Dresden</strong>
+            <span>Sosaerstr. 7</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal-right">
+        <div class="hero-photo">
+          Platz für Hero-Bild<br>Torte / Kuchen / Café
+        </div>
+        <div class="hero-side">
+          <div class="mini-photo">
+            Historisches Motiv<br>oder Traditionsbild
+          </div>
+          <div class="pink-box">
+            <small>Atmosphäre pur</small>
+            <h3>Warm, herzlich, einladend</h3>
+            <p>
+              Genau dieses Gefühl soll auch die neue Website transportieren:
+              persönlich, charmant und gleichzeitig hochwertig.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="card feature-card reveal delay-1">
+          <div class="icon-bubble">★</div>
+          <h3>Tradition</h3>
+          <p>Die Geschichte und Wiedererkennbarkeit bleiben erhalten – nur klarer, moderner und hochwertiger umgesetzt.</p>
+        </div>
+        <div class="card feature-card reveal delay-2">
+          <div class="icon-bubble">🎂</div>
+          <h3>Handwerk</h3>
+          <p>Handgemachte Kuchen, Torten und Spezialitäten stehen im Mittelpunkt – visuell und inhaltlich passend zur Marke.</p>
+        </div>
+        <div class="card feature-card reveal delay-3">
+          <div class="icon-bubble">☎</div>
+          <h3>Service</h3>
+          <p>Besucher finden schneller Kontakt, Öffnungszeiten und Standort – das macht die Seite deutlich alltagstauglicher.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sortiment">
+    <div class="container">
+      <h2 class="section-title">Unser Sortiment</h2>
+      <p class="section-text">Feine Konditorei für Alltag, Feiertage und besondere Anlässe – mit Liebe gemacht und mit Charme präsentiert.</p>
+
+      <div class="products-grid" style="margin-top:28px;">
+        <div class="card product-card reveal delay-1">
+          <h3>Torten & Kuchen</h3>
+          <p>Feinste handgemachte Torten und Kuchen für Geburtstage, Feiern und kleine Genussmomente zwischendurch.</p>
+        </div>
+        <div class="card product-card reveal delay-2">
+          <h3>Dresdner Christstollen®</h3>
+          <p>Original Dresdner Spezialität aus traditioneller Herstellung – besonders zur Weihnachtszeit ein echtes Highlight.</p>
+        </div>
+        <div class="card product-card reveal delay-3">
+          <h3>Backwaren</h3>
+          <p>Frische Brötchen, Brot und feines Gebäck täglich hergestellt – klassisch, hochwertig und mit echter Handarbeit.</p>
+        </div>
+        <div class="card product-card reveal delay-4">
+          <h3>Café & Frühstück</h3>
+          <p>Gemütlich frühstücken, Kaffee genießen und sich im Café eine kleine Auszeit vom Alltag gönnen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bewertungen">
+    <div class="container">
+      <h2 class="section-title">Bewertungen</h2>
+      <p class="section-text">Vertrauen entsteht durch echte Begeisterung – und durch den Charme, den Gäste sofort spüren.</p>
+
+      <div class="reviews-grid" style="margin-top:28px;">
+        <div class="card review-card reveal delay-1">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p>Wunderbare Torten und genau dieser traditionelle Charme, den man heute nur noch selten findet.</p>
+          <div class="review-name">Stammkundin</div>
+        </div>
+        <div class="card review-card reveal delay-2">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p>Sehr gemütlich, man fühlt sich sofort wohl. Genau die richtige Mischung aus Café und Konditorei.</p>
+          <div class="review-name">Gast</div>
+        </div>
+        <div class="card review-card reveal delay-3">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p>Bester Stollen in Dresden – jedes Jahr ein Muss. Man merkt die Erfahrung und die Qualität.</p>
+          <div class="review-name">Kunde</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container bottom-grid">
+      <div class="map-wrap reveal-left">
+        <iframe
+          src="https://maps.google.com/maps?q=Sosaerstr%207%20Dresden&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          loading="lazy"
+          title="Google Maps Standort Konditorei Bierbaum"></iframe>
+      </div>
+
+      <div class="card info-card reveal-right" id="kontakt">
+        <h3>Kontakt & Öffnungszeiten</h3>
+
+        <div class="contact-panel">
+          <div class="contact-row">
+            <div class="contact-icon">📍</div>
             <div>
-              <p className="text-xs text-slate-500">Seit 1933</p>
-              <h1 className="font-bold" style={{ color: pink }}>Konditorei Bierbaum</h1>
+              <strong>Adresse</strong>
+              <span>Sosaerstr. 7, 01257 Dresden</span>
             </div>
           </div>
-          <a href="#kontakt" className="px-4 py-2 rounded-xl text-white shadow" style={{ background: pink }}>
-            Kontakt
+
+          <div class="contact-row">
+            <div class="contact-icon">☎</div>
+            <div>
+              <strong>Telefon</strong>
+              <a href="tel:03512002101">0351 2002101</a>
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-icon">⏰</div>
+            <div>
+              <strong>Öffnungszeiten</strong>
+              <span>Di–Fr: 07:30–17:30<br>Sa: 07:00–12:00<br>So & Mo: geschlossen</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap;padding-top:8px;">
+            <a class="btn btn-primary" href="tel:03512002101">Jetzt anrufen</a>
+            <a class="btn btn-secondary" href="#impressum">Impressum</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="impressum">
+    <div class="container legal-grid">
+      <div class="card legal-card reveal delay-1">
+        <h3>Impressum</h3>
+        <p>
+          Die vollständigen Angaben zum Impressum findest du auf der offiziellen
+          Website der Konditorei Bierbaum. Für eine Live-Version sollte der
+          Inhalt später direkt auf dieser Seite integriert werden.
+        </p>
+        <div style="margin-top:18px;">
+          <a class="btn btn-primary" href="https://www.konditorei-bierbaum.de/Kontakt/Impressum/" target="_blank" rel="noopener noreferrer">
+            Impressum öffnen
           </a>
         </div>
-      </header>
+      </div>
 
-      {/* HERO */}
-      <section style={{ background: `linear-gradient(${rose}, ${cream})` }} className="py-20 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-40 h-40 bg-pink-200 rounded-full blur-3xl opacity-30" />
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <p className="text-pink-700 text-sm font-semibold">Lassen Sie sich verwöhnen</p>
-            <h2 className="text-5xl font-bold mt-3 leading-tight">
-              Traditionelle Konditorei mit Herz
-            </h2>
-            <p className="mt-4 text-slate-600">
-              Handgemachte Torten, feine Backwaren und echtes Dresdner Konditorhandwerk.
-            </p>
+      <div class="card legal-card reveal delay-2" id="datenschutz">
+        <h3>Datenschutz</h3>
+        <p>
+          Eine vollständige Datenschutzerklärung sollte noch ergänzt werden,
+          insbesondere wegen Google Maps und möglicher Kontaktmöglichkeiten.
+          Der Bereich ist hier bereits stilistisch vorbereitet.
+        </p>
+      </div>
+    </div>
+  </section>
 
-            <div className="mt-6 flex gap-4">
-              <a href="#kontakt" className="px-6 py-3 rounded-xl text-white shadow" style={{ background: pink }}>
-                Jetzt besuchen
-              </a>
-              <a href="#sortiment" className="px-6 py-3 border rounded-xl hover:bg-pink-50 transition">
-                Sortiment ansehen
-              </a>
-            </div>
-          </div>
-
-          <div className="grid gap-4">
-            <div className="h-64 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-700 border border-pink-100">
-              Hero Bild
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-6">
-          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
-            <Star className="fill-current" style={{ color: pink }} />
-            <h3 className="mt-3 font-semibold">Tradition</h3>
-          </div>
-          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
-            <Cake style={{ color: pink }} />
-            <h3 className="mt-3 font-semibold">Handwerk</h3>
-          </div>
-          <div className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
-            <Phone style={{ color: pink }} />
-            <h3 className="mt-3 font-semibold">Service</h3>
-          </div>
-        </div>
-      </section>
-
-      {/* SORTIMENT */}
-      <section id="sortiment" className="py-16" style={{ background: cream }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold">Unser Sortiment</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            {products.map((p) => (
-              <div key={p.title} className="p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition border border-pink-100">
-                <h3 style={{ color: pink }}>{p.title}</h3>
-                <p className="text-sm mt-2 text-slate-600">{p.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold">Bewertungen</h2>
-          <div className="grid lg:grid-cols-3 gap-6 mt-8">
-            {reviews.map((r) => (
-              <div key={r.name} className="p-6 border rounded-2xl shadow-sm hover:shadow-md transition">
-                <div className="flex gap-1">
-                  {[1,2,3,4,5].map(i => (
-                    <Star key={i} className="h-4 w-4 fill-current" style={{ color: pink }} />
-                  ))}
-                </div>
-                <p className="mt-3 text-sm text-slate-600">{r.text}</p>
-                <p className="mt-2 text-xs text-slate-400">{r.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* MAP */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <iframe
-            src="https://maps.google.com/maps?q=Sosaerstr%207%20Dresden&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            className="w-full h-[400px] rounded-2xl shadow-sm"
-          />
-        </div>
-      </section>
-
-      {/* KONTAKT */}
-      <section id="kontakt" className="py-16">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
-          <div className="p-6 rounded-2xl bg-pink-50 border border-pink-100">
-            <h2 className="text-2xl font-bold">Kontakt</h2>
-            <p className="mt-3">Sosaerstr. 7, Dresden</p>
-            <p>0351 2002101</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-white border shadow-sm">
-            <h2 className="text-2xl font-bold">Öffnungszeiten</h2>
-            <p className="mt-3">Di–Fr: 07:30–17:30</p>
-            <p>Sa: 07:00–12:00</p>
-          </div>
-        </div>
-      </section>
-
-      {/* IMPRESSUM */}
-      <section id="impressum" className="py-16 bg-pink-50 border-t border-pink-100">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl font-bold" style={{ color: pink }}>Impressum</h2>
-
-          <div className="mt-6 text-sm text-slate-700 space-y-4 leading-relaxed">
-            <p>
-              Die vollständigen Angaben zum Impressum finden Sie auf der offiziellen Website der Konditorei Bierbaum:
-            </p>
-
-            <a
-              href="https://www.konditorei-bierbaum.de/Kontakt/Impressum/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-2 px-5 py-3 rounded-xl text-white font-semibold shadow"
-              style={{ background: pink }}
-            >
-              Impressum öffnen
-            </a>
-
-            <p className="text-xs text-slate-500 mt-4">
-              Hinweis: Für eine rechtssichere Website sollten die Impressumsangaben vollständig auf dieser Seite integriert werden.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* DATENSCHUTZ */}
-      <section id="datenschutz" className="py-16">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl font-bold" style={{ color: pink }}>Datenschutz</h2>
-          <p className="mt-6 text-sm text-slate-600">
-            Eine Datenschutzerklärung wird benötigt, insbesondere wenn Dienste wie Google Maps oder Kontaktmöglichkeiten eingebunden sind.
-            Gerne kann diese hier im selben Stil ergänzt werden.
+  <footer class="site-footer reveal">
+    <div class="container footer-top">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Konditorei Bierbaum</h3>
+          <p>
+            Tradition, Handwerk und Dresdner Genusskultur – liebevoll präsentiert,
+            modern gedacht und bereit für die nächsten Feinschliffe mit echten Bildern.
           </p>
         </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer className="mt-10 bg-pink-50 border-t border-pink-100">
-        <div className="max-w-7xl mx-auto px-6 py-10 text-center">
-          <p className="font-semibold" style={{ color: pink }}>Konditorei Bierbaum</p>
-          <p className="text-sm text-slate-500 mt-2">Tradition · Handwerk · Genuss in Dresden</p>
-          <div className="mt-4 flex justify-center gap-6 text-sm">
-            <a href="#impressum" className="hover:text-pink-700">Impressum</a>
-            <a href="#datenschutz" className="hover:text-pink-700">Datenschutz</a>
-            <a href="#kontakt" className="hover:text-pink-700">Kontakt</a>
-          </div>
+        <div class="footer-links">
+          <a href="#sortiment">Sortiment</a>
+          <a href="#bewertungen">Bewertungen</a>
+          <a href="#kontakt">Kontakt</a>
+          <a href="#impressum">Impressum</a>
+          <a href="#datenschutz">Datenschutz</a>
         </div>
-      </footer>
+      </div>
     </div>
-  );
-}
+
+    <div class="container footer-bottom">
+      <span>© Konditorei Bierbaum</span>
+      <span>Dresden · traditionell · herzlich · handgemacht</span>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        menuToggle.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          menuToggle.textContent = '☰';
+        });
+      });
+    }
+
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.14
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    document.querySelectorAll('.hero-photo, .mini-photo, .pink-box').forEach(el => {
+      el.classList.add('float');
+    });
+
+    const hero = document.querySelector('.hero');
+    const heroPhoto = document.querySelector('.hero-photo');
+    const pinkBox = document.querySelector('.pink-box');
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (hero && y < 700) {
+        if (heroPhoto) {
+          heroPhoto.style.transform = `translateY(${y * 0.03}px)`;
+        }
+        if (pinkBox) {
+          pinkBox.style.transform = `translateY(${y * 0.02}px)`;
+        }
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
